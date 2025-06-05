@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'your-dockerhub-username/devops-node-app'
+        IMAGE_NAME = 'selvakumar2209/devops-node-app'
     }
 
     stages {
