@@ -37,6 +37,14 @@ pipeline {
             }
         }
 
+        stage('Update Deployment File') {
+           steps {
+              script {
+                 sh "sed -i 's|<build_number>|${BUILD_NUMBER}|' k8s/deployment.yaml"
+              }
+           }
+        }
+
         stage('Deploy to K3s') {
             steps {
                 sh 'kubectl apply -f k8s/deployment.yaml'
