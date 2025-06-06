@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Code') {
             steps {
-                git 'https://github.com/Selvakumar2209/Nodejs'
+                git branch: 'main', url: 'https://github.com/Selvakumar2209/Nodejs.git'
             }
         }
 
