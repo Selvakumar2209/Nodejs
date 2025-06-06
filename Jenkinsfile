@@ -5,6 +5,10 @@ pipeline {
         IMAGE_NAME = 'selvakumar2209/devops-node-app'
     }
 
+    // Define a variable outside stages but inside pipeline
+    // Unfortunately, declarative pipeline does not allow variable declarations outside stages,
+    // so use `script` block or store in `currentBuild` object
+
     stages {
         stage('Clone Code') {
             steps {
@@ -15,15 +19,18 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                   def dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
+                   dockerImage = docker.build("${IMAGE_NAME}:${BUILD_NUMBER}")
+                   // Save tag for later stages in env for convenience
+                   env.IMAGE_TAG = "${IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
 
         stage('Push to DockerHub') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub-creds', url: 'https://index.docker.io/v1/') {
-                    script {
+                script {
+                    // use the dockerImage variable directly instead of docker.image(...)
+                    withDockerRegistry(credentialsId: 'dockerhub-creds', url: 'https://index.docker.io/v1/') {
                         dockerImage.push()
                     }
                 }
