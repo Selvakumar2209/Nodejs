@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nodejs-app
-        image: selvakumar2209/devops-node-app:latest
+        image: selvakumar2209/devops-node-app:<build_number>
         ports:
         - containerPort: 3000
         imagePullPolicy: Always
